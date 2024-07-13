@@ -4,17 +4,12 @@ import deepl
 import dotenv
 
 
-AUTH_KEY = ""  # Replace with your key, or put it into .env
-PRODUCTTON = False
-
 target_columns = (0,)
 
 
 def translate(text: str):
     if not PRODUCTTON:
         return text.upper()
-    if AUTH_KEY == "":
-        AUTH_KEY = os.getenv("AUTH_KEY")
     translator = deepl.Translator(AUTH_KEY)
     result = translator.translate_text(text, target_lang="PL")
     return result
@@ -64,5 +59,6 @@ def parse_directory(path: str):
 
 if __name__ == '__main__':
     dotenv.load_dotenv()
-    
+    AUTH_KEY = os.getenv("AUTH_KEY")
+    PRODUCTTON = os.getenv("PRODUCTTON") == "True"
     parse_directory("input")
